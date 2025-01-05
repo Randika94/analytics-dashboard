@@ -4,9 +4,19 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from apps.home import blueprint
-from flask import render_template, request
+from flask import Flask, render_template, request
 from jinja2 import TemplateNotFound
+from flask_wtf.csrf import CSRFProtect
+from wtforms import Form, StringField, validators
 
+app = Flask(__name__)
+csrf = CSRFProtect(app)
+
+class SearchCustomerForm(Form):
+    member_id = StringField('Member ID', [
+        validators.DataRequired(),
+        validators.Length(min=3, max=30, message="Member is required")
+    ])
 
 @blueprint.route('/')
 def index():
@@ -31,6 +41,12 @@ def activeUsersRecommendation():
 def inactiveUsersRecommendation():
 
     return render_template('home/recommendation/active_users.html', segment='inactiveUsersRecommendation')
+
+@blueprint.route('/search-customer', methods=['GET', 'POST'])
+def searchCustomer():
+    form = SearchCustomerForm(request.form)
+    memberId = form.member_id.data
+    return render_template('home/customer_management/show.html', segment='searchCustomer', memberId=memberId)
 
 @blueprint.route('/<template>')
 def route_template(template):

@@ -56,13 +56,14 @@
                                                         <div class="form-wrap mt-4">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <form role="form" id="form-customer-search">
+                                                                    <form role="form" id="form-customer-search" method="post" action="/search-customer">
+                                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                                                         <div class="row">
                                                                             <div class="col-12 " id="inputNic">
                                                                                 <div class="form-group">
                                                                                     <label class="form-control-label">Member ID</label>
                                                                                     <input type="text" class="form-control"
-                                                                                           name="searchInput" placeholder="Enter Member ID">
+                                                                                           name="member_id" placeholder="Enter Member ID" required>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

@@ -1,0 +1,143 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <!-- Bootstrap Datepicker CSS -->
+    <link rel="stylesheet" href="/static/assets/css/bootstrap-datepicker.min.css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="main-content">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg-dark-blue border-bottom">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" aria-current="page"><a>Customer Summary</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a>{{memberId}}</a></li>
+                    </ol>
+                </nav>
+                {% include "includes/navigation.html" %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid pt-5 mt-1">
+        <div class="customer-wrap">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card shadow mb-0">
+                        <div class="card card-nav-tabs shadow bg-secondary">
+                            <div class="card-header card-header-primary bg-gradient-theme">
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#active-tab" data-toggle="tab">
+                                                    Customer Overview
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="tab-content mt-0 mt-mb-3 pl-lg-3">
+
+                                    <div class="tab-pane active" id="active-tab">
+
+                                        <h6 class="heading-small text-muted mb-2">Customer Details</h6>
+                                        <div class="row">
+                                            <div class="col-md-12 mb-2">
+                                                <div class="row mb-0 mb-md-2">
+                                                    <label class="form-control-label col-md-3 col-6">Member ID</label>
+                                                    <div class="text-muted small col-md-3 col-6">{{memberId}}</div>
+                                                    <label class="form-control-label col-md-3 col-6">Segment</label>
+                                                    <div class="text-muted small col-md-3 col-6">Moderate Spenders</div>
+                                                </div>
+
+                                                <div class="row mb-0 mb-md-2">
+                                                    <label class="form-control-label col-md-3 col-6">Average Amount</label>
+                                                    <div class="text-muted small col-md-3 col-6">10,000</div>
+                                                    <label class="form-control-label col-md-3 col-6">Preferred Category</label>
+                                                    <div class="text-muted small col-md-3 col-6">Restaurants</div>
+                                                </div>
+
+                                                <div class="row mb-0 mb-md-2">
+                                                    <label class="form-control-label col-md-3 col-6">Preferred City</label>
+                                                    <div class="text-muted small col-md-3 col-6">Colombo</div>
+                                                    <label class="form-control-label col-md-3 col-6">Preferred Merchant</label>
+                                                    <div class="text-muted small col-md-3 col-6">Ministry of Crabs</div>
+                                                </div>
+
+                                                <div class="row mb-0 mb-md-2">
+                                                    <label class="form-control-label col-md-3 col-6">Marketing Availability Status</label>
+                                                    <div class="text-muted small col-md-3 col-6">
+                                                        <span class="badge badge-pill badge-success">Yes</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Already Interacted MCC -->
+                                        <hr class="mt-2 mb-2 mt-md-2 mb-md-4">
+                                        <h6 class="heading-small text-muted mb-2">Already Interacted MCC</h6>
+                                        <div class="row">
+                                            <div class="col-md-12 mb-2">
+                                                <span class="badge badge-pill badge-success text-md">Supermarket</span>
+                                                <span class="badge badge-pill badge-success text-md">Hotels</span>
+                                                <span class="badge badge-pill badge-success text-md">Hospitals</span>
+                                                <span class="badge badge-pill badge-success text-md">Clothing Stores</span>
+                                                <span class="badge badge-pill badge-success text-md">Restaurants</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Recommended MCC -->
+                                        <hr class="mt-2 mb-2 mt-md-2 mb-md-4">
+                                        <h6 class="heading-small text-muted mb-2">Recommended MCC</h6>
+                                        <div class="row">
+                                            <div class="col-md-12 mb-2">
+                                                <span class="badge badge-pill badge-primary text-white text-md">Drug Stores and Pharmacies</span>
+                                                <span class="badge badge-pill badge-primary text-white text-md">Fast Food Restaurants</span>
+                                                <span class="badge badge-pill badge-primary text-white text-md">Gas Stations</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <hr class="mt-2 mb-2 mt-md-2 mb-md-4">
+                                        <div class="row mb-0 mb-md-2 mt-3">
+                                            <div class="col-12 text-right">
+                                                <a href="/customer" class="btn btn-default btn-sm">
+                                                    <i class="fa fa-angle-double-left"></i> Go Back
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+   
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+    <!--jquery validtion lib-->
+    <script src="/static/assets/vendor/jquery-validate/jquery.validate.js"></script>
+
+    <!--Custom JS-->
+    <script src="/static/assets/js/customer.js"></script>
+
+{% endblock javascripts %}
