@@ -10,37 +10,37 @@ from jinja2 import TemplateNotFound
 
 
 @blueprint.route('/dashboard')
-@login_required
+
 def index():
 
     return render_template('home/index.html', segment='index')
 
 @blueprint.route('/customer')
-@login_required
+
 def customerManagement():
 
     return render_template('home/customer_management/index.html', segment='customerManagement')
 
 @blueprint.route('/campaign')
-@login_required
+
 def campaignManagement():
 
     return render_template('home/campaign_management/index.html', segment='campaignManagement')
 
 @blueprint.route('/active-users')
-@login_required
+
 def activeUsersRecommendation():
 
     return render_template('home/recommendation/active_users.html', segment='activeUsersRecommendation')
 
 @blueprint.route('/inactive-users')
-@login_required
+
 def inactiveUsersRecommendation():
 
     return render_template('home/recommendation/active_users.html', segment='inactiveUsersRecommendation')
 
 @blueprint.route('/<template>')
-@login_required
+
 def route_template(template):
 
     try:

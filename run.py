@@ -3,7 +3,7 @@ from sys import exit
 from decouple import config
 
 from apps.config import config_dict
-from apps import create_app, db
+from apps import create_app
 from flask_wtf import CSRFProtect
 
 # WARNING: Don't run with debug turned on in production!
@@ -21,7 +21,7 @@ except KeyError:
     exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
 
 app = create_app(app_config)
-Migrate(app, db)
+Migrate(app)
 csrf = CSRFProtect(app)
 
 if DEBUG:
