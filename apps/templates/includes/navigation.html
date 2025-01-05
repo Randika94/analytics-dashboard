@@ -18,11 +18,11 @@
           <div class="pr-0">
               <div class="media align-items-center">
                 <span class="avatar avatar-sm rounded-circle d-none d-sm-block">
-                  <img alt="Image placeholder" src="/static/assets/img/user.jpg">
+                  <img alt="Image placeholder" src="/static/assets/img/user.png">
                 </span>
                  
                   <div class="media-body ml-2 d-none d-lg-block">
-                      <span class="mb-0 text-sm font-weight-bold text-white">Welcome Randika!</span>
+                      <span class="mb-0 text-sm font-weight-bold text-white">Welcome {{ session.get('username') }}!</span>
                   </div>
               </div>
           </div>
