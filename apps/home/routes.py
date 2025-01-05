@@ -45,8 +45,10 @@ def inactiveUsersRecommendation():
 @blueprint.route('/search-customer', methods=['GET', 'POST'])
 def searchCustomer():
     form = SearchCustomerForm(request.form)
-    memberId = form.member_id.data
-    return render_template('home/customer_management/show.html', segment='searchCustomer', memberId=memberId)
+    if request.method == 'POST' and form.validate():
+        memberId = form.member_id.data
+        return render_template('home/customer_management/show.html', segment='searchCustomer', memberId=memberId)
+    return render_template('home/errors/page-403.html'), 403
 
 @blueprint.route('/<template>')
 def route_template(template):
