@@ -5,7 +5,6 @@ Copyright (c) 2019 - present AppSeed.us
 
 from apps.home import blueprint
 from flask import render_template, request
-from flask_login import login_required
 from jinja2 import TemplateNotFound
 
 
@@ -16,31 +15,26 @@ def index():
     return render_template('home/index.html', segment='index')
 
 @blueprint.route('/customer')
-
 def customerManagement():
 
     return render_template('home/customer_management/index.html', segment='customerManagement')
 
 @blueprint.route('/campaign')
-
 def campaignManagement():
 
     return render_template('home/campaign_management/index.html', segment='campaignManagement')
 
 @blueprint.route('/active-users')
-
 def activeUsersRecommendation():
 
     return render_template('home/recommendation/active_users.html', segment='activeUsersRecommendation')
 
 @blueprint.route('/inactive-users')
-
 def inactiveUsersRecommendation():
 
     return render_template('home/recommendation/active_users.html', segment='inactiveUsersRecommendation')
 
 @blueprint.route('/<template>')
-
 def route_template(template):
 
     try:
