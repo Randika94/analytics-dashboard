@@ -1,0 +1,109 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <!-- Bootstrap Datepicker CSS -->
+    <link rel="stylesheet" href="/static/assets/css/bootstrap-datepicker.min.css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="main-content">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg-dark-blue border-bottom">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page"><a>Campaign Management</a></li>
+                    </ol>
+                </nav>
+                {% include "includes/navigation.html" %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid pt-3 pb-3">
+        <div class="row">
+            <div class="col-12 mb-2 filter-wrap">
+                <div class="date-picker-wrap float-md-right pt-3">
+                    <div class="form-group w-100">
+                        <label class="form-control-label text-xs text-muted" for="booking-date-range">Filter by Date Range</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                            </div>
+                            <input id="datePicker" class="form-control datepicker" placeholder="Select date" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-wrap">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card shadow pt-3">
+                        <div class="table-responsive">
+                            <table id="tableCampaignManagement" class="table align-items-center dt-responsive nowrap table-flush user_tbl" width="100%">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>Campaign Name</th>
+                                    <th>Description</th>
+                                    <th>Targeted Count</th>
+                                    <th>Potential Count</th>
+                                    <th>Success Rate</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in range(10) %}
+                                    <tr>
+                                        <td>Test Campaign {{i+1}}</td>
+                                        <td>Marketing campaign for lorem ipsum</td>
+                                        <td>1,500</td>
+                                        <td>1,000</td>
+                                        <td>
+                                            <span class="badge badge-pill badge-success">10%</span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+   
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+    <!-- DataTable JS -->
+    <script src="/static/assets/vendor/data-tables/dataTable.js"></script>
+
+    <!--Moment-->
+    <script type="text/javascript" src="/static/assets/vendor/moment/moment.min.js"></script>
+
+    <!--Date Range Picker-->
+    <link href="/static/assets/vendor/date-range-picker/daterangepicker.css" type="text/css" rel="stylesheet">
+    <script src="/static/assets/vendor/date-range-picker/daterangepicker.js"></script>
+
+    <!--data table-->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+    <!--Data table bootstrap-->
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Custom JS-->
+    <script src="/static/assets/js/campaign_management.js"></script>
+
+{% endblock javascripts %}

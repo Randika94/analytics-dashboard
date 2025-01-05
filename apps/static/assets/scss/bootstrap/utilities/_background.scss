@@ -1,0 +1,31 @@
+// stylelint-disable declaration-no-important
+
+@each $color, $value in $theme-colors {
+  @include bg-variant(".bg-#{$color}", $value, true);
+}
+
+@if $enable-gradients {
+  @each $color, $value in $theme-colors {
+    @include bg-gradient-variant(".bg-gradient-#{$color}", $value);
+  }
+}
+
+.bg-white {
+  background-color: $white !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+.bg-gradient-theme {
+  background: linear-gradient(87deg, #0c182d 0, #4e499b 100%) !important;
+}
+
+.bg-dark-blue {
+  background-color: #0c182d !important; }
+
+a.bg-dark-blue:hover, a.bg-dark-blue:focus,
+button.bg-dark-blue:hover,
+button.bg-dark-blue:focus {
+  background-color: #0b2043 !important; }

@@ -1,0 +1,65 @@
+//
+// Modal
+//
+.modal {
+    .modal-dialog {
+        .modal-content {
+        border-radius: 0rem !important;
+            .modal-header {
+                border-bottom: 1px solid #e8e8e8 !important;
+                .modal-title {
+                    line-height: 1.8;
+                }
+            }
+
+            .modal-body {
+                .confirm-alert-block {
+                text-align: center;
+                padding: 15px 0px;
+
+                    .img-block {
+                        img {
+                        width: 56px;
+                        margin-bottom: 15px;
+                        }
+                    }
+
+                    .confirm-text {
+                        font-size: 0.75rem;
+                        color: #8898aa;
+                        text-transform: uppercase;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+}
+  
+
+.modal-title {
+    font-size: $modal-title-font-size;
+}
+
+
+// Fluid modal
+
+.modal-fluid {
+    .modal-dialog {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .modal-content {
+        border-radius: 0;
+    }
+}
+
+
+// Background color variations
+
+@each $color, $value in $theme-colors {
+    .modal-#{$color} {
+        @include modal-variant($value);
+    }
+}

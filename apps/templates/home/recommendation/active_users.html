@@ -1,0 +1,251 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <!-- Bootstrap Datepicker CSS -->
+    <link rel="stylesheet" href="/static/assets/css/bootstrap-datepicker.min.css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="main-content">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg-dark-blue border-bottom">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item" aria-current="page"><a>Recommendation</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><a>Active Users</a></li>
+                    </ol>
+                </nav>
+                {% include "includes/navigation.html" %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid pt-5 mt-1">
+        <div class="customer-wrap">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card shadow mb-0">
+                        <div class="card card-nav-tabs shadow bg-secondary">
+                            <div class="card-header card-header-primary bg-gradient-theme">
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#active-tab" data-toggle="tab">
+                                                    Active Users
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="tab-content mt-0 mt-mb-3 pl-lg-3">
+                                    <div class="tab-pane active" id="active-tab">
+                                        <div class="users-wrap mb-5">
+                                            <div class="row">
+                                                <div class="col-12 mb-2 mb-sm-2 mb-md-4">
+                                                    <div class="btn-wrap float-right">
+                                                        <button class="btn btn-primary float-right mt-2"
+                                                                data-toggle="modal" data-target="#addActiveUserModal">
+                                                            <span class="btn-inner--icon"><i
+                                                                        class="fas fa-plus mr-1"></i></span>
+                                                            <span class="btn-inner--text">Add Active User</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <div class="card shadow pt-3">
+                                                        <div class="table-responsive">
+                                                            <table id="tableActiveUsers"
+                                                                   class="table align-items-center dt-responsive table-flush user_tbl"
+                                                                   width="100%">
+                                                                <thead class="thead-light">
+                                                                <tr>
+                                                                    <th>Member ID</th>
+                                                                    <th>Segment</th>
+                                                                    <th>Score</th>
+                                                                    <th>Type</th>
+                                                                    <th>MCC Name</th>
+                                                                    <th>City</th>
+                                                                    <th>Marketing Status</th>
+                                                                    <th>Average Spend</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>92343444</td>
+                                                                        <td>Budget Spenders</td>
+                                                                        <td>10</td>
+                                                                        <td>Type Rec.</td>
+                                                                        <td>Restaurants</td>
+                                                                        <td>Colombo</td>
+                                                                        <td><span class="badge badge-pill badge-danger">No</span></td>
+                                                                        <td>15,000</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>92343444</td>
+                                                                        <td>Budget Spenders</td>
+                                                                        <td>10</td>
+                                                                        <td>Type Rec.</td>
+                                                                        <td>Restaurants</td>
+                                                                        <td>Negambo</td>
+                                                                        <td><span class="badge badge-pill badge-danger">No</span></td>
+                                                                        <td>15,000</td>
+                                                                    </tr>
+                                                                {% for i in range(20) %}
+                                                                    <tr>
+                                                                        <td>92343444</td>
+                                                                        <td>Budget Spenders</td>
+                                                                        <td>10{{i+1}}</td>
+                                                                        <td>Type Rec.</td>
+                                                                        <td>Restaurants</td>
+                                                                        <td>Colombo</td>
+                                                                        <td><span class="badge badge-pill badge-success">Yes</span></td>
+                                                                        <td>15,000</td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!--add user-->
+ <div class="modal fade" id="addActiveUserModal" tabindex="-1" role="dialog" aria-labelledby="addActiveUserModalLabel"
+ aria-hidden="true">
+     <div class="modal-dialog" role="document">
+         <div class="modal-content bg-secondary">
+             <div class="modal-header">
+                 <h2 class="modal-title" id="addActiveUserModalLabel">Create Active User Recommendation</h2>
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>
+             </div>
+             <div class="modal-body">
+                 <form role="form" id="formRecommendationActiveUser">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Segment</label>
+                                <select id="segment" class="form-control sel-class" name="segment">
+                                    <option value="1">Low Engagement</option>
+                                    <option value="2">Budget Spenders</option>
+                                    <option value="3">Moderate Spenders</option>
+                                    <option value="4">High Spenders</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-control-label">City</label>
+                                <input type="text" class="form-control" name="city" placeholder="Colombo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-control-label">Is Create Campaign?</label>
+                                <label class="custom-toggle d-block mt-2">
+                                    <input type="checkbox" class="is-create-campaign" id="isCreateCampaign" name="is_create_campaign">
+                                    <span class="custom-toggle-slider rounded-circle"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="createCampaign" class="create-campaign">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Campaign Name</label>
+                                    <input type="text" class="form-control" name="campaign_name" placeholder="Test Campaign">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label">Campaign Description</label>
+                                    <textarea class="form-control" name="campaign_description" row="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="row">
+                         <div class="col-12">
+                             <div class="btn-block mt-3 mb-3 text-right">
+                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                 <button type="submit" class="btn btn-primary add-active-user">Submit</button>
+                             </div>
+                         </div>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+ </div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+    <!--jquery validation lib-->
+    <script src="/static/assets/vendor/jquery-validate/jquery.validate.js"></script>
+
+    <!-- DataTable JS -->
+    <script src="/static/assets/vendor/data-tables/dataTable.js"></script>
+
+    <!--Moment-->
+    <script type="text/javascript" src="/static/assets/vendor/moment/moment.min.js"></script>
+
+    <!-- Bootstrap Datepicker JS -->
+    <script src="/static/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/assets/js/bootstrap-datepicker.min.js"></script>
+
+    <!--Date Range Picker-->
+    <link href="/static/assets/vendor/date-range-picker/daterangepicker.css" type="text/css" rel="stylesheet">
+    <script src="/static/assets/vendor/date-range-picker/daterangepicker.js"></script>
+
+    <!--data table-->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+    <!--Data table bootstrap-->
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <!--Custom JS-->
+    <script src="/static/assets/js/recommendation.js"></script>
+
+{% endblock javascripts %}

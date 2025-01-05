@@ -1,0 +1,114 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <!-- Bootstrap Datepicker CSS -->
+    <link rel="stylesheet" href="/static/assets/css/bootstrap-datepicker.min.css">
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="main-content">
+    <!-- Topnav -->
+    <nav class="navbar navbar-top navbar-expand navbar-dark bg-dark-blue border-bottom">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page"><a>Customer Management</a></li>
+                    </ol>
+                </nav>
+                {% include "includes/navigation.html" %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid pt-5 mt-1">
+        <div class="customer-wrap">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card shadow mb-0">
+                        <div class="card card-nav-tabs shadow bg-secondary">
+                            <div class="card-header card-header-primary bg-gradient-theme">
+                                <div class="nav-tabs-navigation">
+                                    <div class="nav-tabs-wrapper">
+                                        <ul class="nav nav-tabs" data-tabs="tabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" href="#active-tab" data-toggle="tab">
+                                                    Customers
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="tab-content mt-0 mt-mb-3 pl-lg-3">
+
+                                    <div class="tab-pane active" id="active-tab">
+                                        <div class="customer-wrap">
+                                            <div class="row">
+                                                <div class="col-md-8 col-xl-5">
+                                                    <div class="card shadow py-3 px-4">
+                                                        <h6 class="heading-small text-muted mb-1">Search Customer</h6>
+                                                        <div class="form-wrap mt-4">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <form role="form" id="form-customer-search">
+                                                                        <div class="row">
+                                                                            <div class="col-12 " id="inputNic">
+                                                                                <div class="form-group">
+                                                                                    <label class="form-control-label">Member ID</label>
+                                                                                    <input type="text" class="form-control"
+                                                                                           name="searchInput" placeholder="Enter Member ID">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-12">
+                                                                                <hr class="mt-4 mb-4">
+                                                                                <div class="btn-block mt-3 mb-3 text-left">
+                                                                                    <button type="submit"
+                                                                                            class="btn btn-primary search-customer px-sm-5 w-100">
+                                                                                        Search
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+   
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+    <!--jquery validtion lib-->
+    <script src="/static/assets/vendor/jquery-validate/jquery.validate.js"></script>
+
+    <!--Custom JS-->
+    <script src="/static/assets/js/customer.js"></script>
+
+{% endblock javascripts %}
