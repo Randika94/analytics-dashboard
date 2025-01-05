@@ -40,7 +40,7 @@ class RegisterForm(Form):
         validators.Length(min=6, message="Password must be at least 6 characters.")
     ])
 
-@blueprint.route('/')
+@blueprint.route('/sign-in')
 def signIn():
     return render_template('accounts/login.html', segment='signIn')
 
