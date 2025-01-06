@@ -15,7 +15,7 @@ csrf = CSRFProtect(app)
 class SearchCustomerForm(Form):
     member_id = StringField('Member ID', [
         validators.DataRequired(),
-        validators.Length(min=3, max=30, message="Member is required")
+        validators.Length(min=1, max=30, message="Member is required")
     ])
 
 @blueprint.route('/')
