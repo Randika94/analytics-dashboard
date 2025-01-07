@@ -61,7 +61,7 @@
                   <div class="row">
                     <div class="col pr-0">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total customers base</h5>
-                      <span class="h2 font-weight-bold mb-0">350,897</span>
+                      <span class="h2 font-weight-bold mb-0"> {{ '{:,}'.format(dashboard['total_customer_count'] | int) if dashboard['total_customer_count'] else 0 }}</span>
                       <!-- <h5 class="text-uppercase text-muted mt-1 mb-0">Orders <span id="totalOrderCount">1,000</span></h5> -->
                     </div>
                     <div class="col-auto">
@@ -80,7 +80,7 @@
                   <div class="row">
                     <div class="col pr-0">
                       <h5 class="card-title text-uppercase text-muted mb-0">Marketing suitable customers</h5>
-                      <span class="h2 font-weight-bold mb-0">2,356</span>
+                      <span class="h2 font-weight-bold mb-0">{{ '{:,}'.format(dashboard['potantial_count'] | int) if dashboard['potantial_count'] else 0 }}</span>
                     </div>
                     <div class="col-auto pl-0">
                       <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -98,7 +98,7 @@
                   <div class="row">
                     <div class="col">
                       <h5 class="card-title text-uppercase text-muted mb-0">Low cc usage customers</h5>
-                      <span class="h2 font-weight-bold mb-0">924</span>
+                      <span class="h2 font-weight-bold mb-0">{{ '{:,}'.format(dashboard['low_key_users'] | int) if dashboard['low_key_users'] else 0 }}</span>
                     </div>
                     <div class="col-auto">
                       <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -114,11 +114,11 @@
                 <!-- Card body -->
                 <div class="card-body">
                   <div class="row">
-                    <div class="col">
+                    <div class="col-8">
                       <h5 class="card-title text-uppercase text-muted mb-0">Total transactions</h5>
-                      <span class="h2 font-weight-bold mb-0">1,200</span>
+                      <span class="h2 font-weight-bold mb-0">{{ '{:,}'.format(dashboard['transaction_total'] | int) if dashboard['transaction_total'] else 0 }}</span>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-2">
                       <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
                         <i class="ni ni-chart-bar-32"></i>
                       </div>
@@ -137,7 +137,7 @@
       <div class="row">
         <div class="col-xl-8">
             <div class="card bg-default">
-                <div class="card-header border-0 bg-default">
+                <div class="card-header border-0 bg-default pb-0">
                     <div class="row align-items-center">
                         <div class="col-12 col-sm-6">
                             <h6 class="text-uppercase text-white ls-1 mb-1">Popular</h6>
@@ -154,7 +154,7 @@
                         </div> -->
                     </div>
                 </div>
-                <div class="card-body pb-0">
+                <div class="card-body">
                     <div class="table-responsive text-white mt--3">
                         <!-- Projects table -->
                         <table id="topMerchantsTable" class="table align-items-center table-flush text-white">
@@ -165,50 +165,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">
-                                  Supermarkets and Grocery Stores
-                                </th>
-                                <td>
-                                    100,000
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  Gas Stations
-                                </th>
-                                <td>
-                                    90,000
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  Restaurants
-                                </th>
-                                <td>
-                                    80,000
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  Fast Food Restaurants
-                                </th>
-                                <td>
-                                    70,000
-                                </td>
-                              </tr>
-
-                              <tr>
-                                <th scope="row">
-                                  Department Stores
-                                </th>
-                                <td>
-                                    60,000
-                                </td>
-                              </tr>
+                              {%if dashboard['best_mcc'] %}
+                                  {% for bestMcc in dashboard['best_mcc'] %}
+                                      <tr>
+                                          <td>{{bestMcc['name']}}</td>
+                                          <td>{{bestMcc['total']}}</td>
+                                      </tr>
+                                  {% endfor %}
+                              {% endif %}    
                             </tbody>
                         </table>
                     </div>

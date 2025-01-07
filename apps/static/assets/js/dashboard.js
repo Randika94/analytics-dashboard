@@ -395,190 +395,42 @@ $(document).ready(function () {
 });
 
 function pieChart() {
-    var TypeChart = (function () {
-		var $chart = $('#chart-type');
-
-		// Init chart
-		function initPieChart($chart) {
-
-
-			var TypeChart = new Chart($chart, {
-				type: 'pie',
-				options: {
-					legend: {
-						display: true,
-					},
-				},
-				data: {
-					labels: ['Marketing Suitable Customers', 'Low CC Usage Customers',  'Total Transactions'],
-					datasets: [{
-						label: 'Sales',
-						backgroundColor: ["#4e499b", "#0c182d", "#2b2728"],
-						data: [2356,924, 1200]
-					}]
-				}
-			});
-
-			// Save to jQuery object
-			$chart.data('chart', TypeChart);
-		}
-
-
-		// Init chart
-		if ($chart.length) {
-			initPieChart($chart);
-		}
-
-	})();
-}
-
-function filterDashboardKPI() {
-    let selectedDate = $('#salesOverviewDatePicker').prop('value');
-    let monthName = selectedDate.split(',')[0].trim();
-    let year = selectedDate.split(',')[1].trim();
-    let monthNumber = (new Date(Date.parse(monthName + " 1")).getMonth() + 1).toString().padStart(2, '0');
-    let salesDate = year+'-'+monthNumber;
-    let bank = $('#salesOverviewBankName :selected').prop('value');
-
-    $.ajax({
-        url: '/filter-sales-kpi',
-        type: 'POST',
-        data: {
-            _token: $('meta[name="csrf-token"]').attr('content'),
-            month: monthNumber,
-            year: year,
-            client_id: bank
-        },
-        dataType: 'json',
+	$.ajax({
+        url: '/chart-data',
+        type: 'GET',
+        data: {},
         success: function(response) {
+            var TypeChart = (function () {
+                var $chart = $('#chart-type');
+                // Init chart
+                function initPieChart($chart) {
 
-            if (response.error_code == false) {
-                let totalSales = parseInt(response.dashboardMetrics.total_sales).toLocaleString('en-US');
-                let totalOrderCount = parseInt(response.dashboardMetrics.total_order_count).toLocaleString('en-US');
-                $('#totalSales').text(totalSales);
-                $('#totalOrderCount').text(totalOrderCount);
+                    var TypeChart = new Chart($chart, {
+                        type: 'pie',
+                        options: {
+                            legend: {
+                                display: true,
+                            },
+                        },
+                        data: {
+                            labels: ['Marketing Suitable Customers', 'Low CC Usage Customers',  'Total Transactions'],
+                            datasets: [{
+                                label: 'Sales',
+                                backgroundColor: ["#fb6340", "#2dce89", "#1171ef"],
+                                data: response.redemptionOptions
+                            }]
+                        }
+                    });
 
-                let eVoucherTotalSales = parseInt(response.dashboardMetrics.evoucher_total_sales).toLocaleString('en-US');
-                let eVoucherOrderCount = parseInt(response.dashboardMetrics.evoucher_order_count).toLocaleString('en-US');
-                $('#eVoucherTotalSales').text(eVoucherTotalSales);
-                $('#eVoucherOrderCount').text(eVoucherOrderCount);
+                    // Save to jQuery object
+                    $chart.data('chart', TypeChart);
+                }
 
-                let f2fTotalSales = parseInt(response.dashboardMetrics.f2f_total_sales).toLocaleString('en-US');
-                let f2fOrderCount = parseInt(response.dashboardMetrics.f2f_order_count).toLocaleString('en-US');
-                $('#f2fTotalSales').text(f2fTotalSales);
-                $('#f2fOrderCount').text(f2fOrderCount);
-
-                let mallTotalSales = parseInt(response.dashboardMetrics.mall_total_sales).toLocaleString('en-US');
-                let mallOrderCount = parseInt(response.dashboardMetrics.mall_order_count).toLocaleString('en-US');
-                $('#mallTotalSales').text(mallTotalSales);
-                $('#mallOrderCount').text(mallOrderCount);
-
-                let redemptionChartData = response.dashboardMetrics.redemption_chart;
-                updatePieChart(redemptionChartData);
-            } else {
-                $('.alert-danger').addClass('show');
-                $('.alert-inner--text').html('<b>Error! </b> Something went wrong while filtering!');
-                setTimeout(function () {
-                    $('.alert-danger').removeClass('show');
-                }, 500);
-                location.reload();
-            }
-            
+                // Init chart
+                if ($chart.length) {
+                    initPieChart($chart);
+                }
+            })();
         }
     });
 }
-
-function updatePieChart(data) {
-    var $chart = $('#chart-type');
-
-    // Define static labels
-    const staticLabels = ['E-Vouchers', 'Shopping Mall', 'Face To Face'];
-
-    // Check if the chart already exists
-    if ($chart.data('chart')) {
-        // If the chart already exists, update the data only
-        const chartInstance = $chart.data('chart');
-        chartInstance.data.datasets[0].data = data;
-        chartInstance.update(); // Update the chart with the new data
-    } else {
-        // Initialize a new chart if it doesn't exist yet
-        var TypeChart = new Chart($chart, {
-            type: 'pie',
-            options: {
-                legend: {
-                    display: true,
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function(tooltipItem, chartData) {
-                            // Get the index of the hovered segment
-                            const index = tooltipItem.index;
-
-                            // Retrieve the value and label for the segment
-                            const value = chartData.datasets[0].data[index];
-                            const label = staticLabels[index] || '';
-
-                            // Return label and value only if value > 0
-                            if (value > 0) {
-                                return `${label}: ${value}`;
-                            } else {
-                                return null; // Skip tooltip for zero values
-                            }
-                        }
-                    }
-                }
-            },
-            data: {
-                labels: staticLabels,
-                datasets: [{
-                    label: 'Sales',
-                    backgroundColor: ["#509c1c", "#172b4d", "#2b2728"],
-                    data: data
-                }]
-            }
-        });
-
-        // Save the chart object
-        $chart.data('chart', TypeChart);
-    }
-}
-
-$('#topMerchantDateRangePicker').on('apply.daterangepicker', function (ev, picker) {
-	let start_date = picker.startDate.format('YYYY-MM-DD');
-	let end_date = picker.endDate.format('YYYY-MM-DD');
-	let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-console.log(start_date, end_date, CSRF_TOKEN);
-
-	$.ajax({
-		type: 'POST',
-		url: '/filter-merchants',
-		data: {
-			_token: CSRF_TOKEN,
-			start_date: start_date,
-			end_date: end_date
-		},
-		dataType: 'json',
-		success: function (data) {
-			let table = $('#topMerchantsTable').DataTable();
-			table.clear().draw();
-
-			if (data.error_code === true && data.error_code == '1004') {
-				$('.alert-danger').addClass('show');
-				$('.alert-inner--text').html('<b>Error! </b> Something went wrong while filtering!');
-				setTimeout(function () {
-					$('.alert-danger').removeClass('show');
-				}, 500);
-				location.reload();
-			} else {
-				let merchants = data.top_merchants;
-				$.each(merchants, function (index, obj) {
-					table.row.add([
-						obj.merchant_name,
-						obj.total.toLocaleString('en-US')
-					]).draw(false);
-				});
-			}
-		
-		}
-	});
-});

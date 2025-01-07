@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 import os
 from apps.home import blueprint
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for, jsonify
 from jinja2 import TemplateNotFound
 from flask_wtf.csrf import CSRFProtect
 from wtforms import Form, StringField, validators
@@ -27,8 +27,41 @@ class SearchCustomerForm(Form):
 
 @blueprint.route('/')
 def index():
+    try:
+        response = requests.post(
+            f'{API_URL}/get-dashboard-data/', 
+            headers={'Content-Type': 'application/json'})
 
-    return render_template('home/index.html', segment='index')
+        if response.status_code == 200:
+            api_data = response.json()
+            return render_template('home/index.html', segment='index', dashboard=api_data['data'])
+        else:
+            return render_template('home/index.html', segment='index', dashboard=[])
+    except Exception as e:
+        return render_template('home/index.html', segment='index', dashboard=[])
+
+@blueprint.route('/chart-data', methods=['GET'])
+def getChartData():
+    try:
+        response = requests.post(
+            f'{API_URL}/get-dashboard-data/', 
+            headers={'Content-Type': 'application/json'}
+        )
+        if response.status_code == 200:
+            api_data = response.json()
+            chart_data = {
+                "redemptionOptions": [
+                    api_data['data']['potantial_count'],
+                    api_data['data']['low_key_users'],
+                    api_data['data']['transaction_total']
+                ]
+            }
+            return jsonify(chart_data)
+        else:
+            return jsonify({"redemptionOptions": [0, 0, 0]}), 400
+    except Exception as e:
+        print(f"Error fetching chart data: {e}")
+        return jsonify({"redemptionOptions": [0, 0, 0]}), 500
 
 @blueprint.route('/customer')
 def customerManagement():
@@ -41,9 +74,8 @@ def campaignManagement():
         response = requests.get(
             f'{API_URL}/get-campaign-details', 
             headers={'Content-Type': 'application/json'})
-        print(response.text)
+      
         if response.status_code == 200:
-            
             api_data = response.json()
             return render_template('home/campaign_management/index.html', segment='campaignManagement', campaigns=api_data['campaign_data'])
         else:
