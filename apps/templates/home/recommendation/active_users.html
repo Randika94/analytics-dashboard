@@ -55,8 +55,8 @@
                                                         <button class="btn btn-primary float-right mt-2"
                                                                 data-toggle="modal" data-target="#addActiveUserModal">
                                                             <span class="btn-inner--icon"><i
-                                                                        class="fas fa-plus mr-1"></i></span>
-                                                            <span class="btn-inner--text">Add Active User</span>
+                                                                        class="fas fa-filter mr-1"></i></span>
+                                                            <span class="btn-inner--text">Filter Active User</span>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -81,39 +81,26 @@
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <td>92343444</td>
-                                                                        <td>Budget Spenders</td>
-                                                                        <td>10</td>
-                                                                        <td>Type Rec.</td>
-                                                                        <td>Restaurants</td>
-                                                                        <td>Colombo</td>
-                                                                        <td><span class="badge badge-pill badge-danger">No</span></td>
-                                                                        <td>15,000</td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td>92343444</td>
-                                                                        <td>Budget Spenders</td>
-                                                                        <td>10</td>
-                                                                        <td>Type Rec.</td>
-                                                                        <td>Restaurants</td>
-                                                                        <td>Negambo</td>
-                                                                        <td><span class="badge badge-pill badge-danger">No</span></td>
-                                                                        <td>15,000</td>
-                                                                    </tr>
-                                                                {% for i in range(20) %}
-                                                                    <tr>
-                                                                        <td>92343444</td>
-                                                                        <td>Budget Spenders</td>
-                                                                        <td>10{{i+1}}</td>
-                                                                        <td>Type Rec.</td>
-                                                                        <td>Restaurants</td>
-                                                                        <td>Colombo</td>
-                                                                        <td><span class="badge badge-pill badge-success">Yes</span></td>
-                                                                        <td>15,000</td>
-                                                                    </tr>
-                                                                {% endfor %}
+                                                                {%if activeUsers %}
+                                                                    {% for campaign in activeUsers %}
+                                                                        <tr>
+                                                                            <td>{{ campaign['member_id'] }}</td>
+                                                                            <td>{{ campaign['segment'] }}</td>
+                                                                            <td>{{ '{:,}'.format(campaign['score'] | int) }}</td>
+                                                                            <td>{{ campaign['type'] }}</td>
+                                                                            <td>{{ campaign['mcc_name'] }}</td>
+                                                                            <td>{{ campaign['city'] }}</td>
+                                                                            <td>
+                                                                                {% if campaign['is_marketing_suitable'] == 0 %}
+                                                                                    <span class="badge badge-pill badge-danger">No</span>
+                                                                                {% else %}
+                                                                                    <span class="badge badge-pill badge-success">Yes</span>
+                                                                                {% endif %}
+                                                                            </td>
+                                                                            <td>{{ '{:,}'.format(campaign['average_spend'] | int) }}</td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                {% endif %}
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -144,16 +131,17 @@
                  </button>
              </div>
              <div class="modal-body">
-                 <form role="form" id="formRecommendationActiveUser">
+                <form role="form" id="formRecommendationActiveUser" method="post" action="/get-active-users">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                                 <label class="form-control-label">Segment</label>
                                 <select id="segment" class="form-control sel-class" name="segment">
-                                    <option value="1">Low Engagement</option>
-                                    <option value="2">Budget Spenders</option>
-                                    <option value="3">Moderate Spenders</option>
-                                    <option value="4">High Spenders</option>
+                                    <option value="Low Engagement">Low Engagement</option>
+                                    <option value="Budget Spenders">Budget Spenders</option>
+                                    <option value="Moderate Spenders">Moderate Spenders</option>
+                                    <option value="High Spenders">High Spenders</option>
                                 </select>
                             </div>
                         </div>
@@ -204,7 +192,7 @@
                          <div class="col-12">
                              <div class="btn-block mt-3 mb-3 text-right">
                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                 <button type="submit" class="btn btn-primary add-active-user">Submit</button>
+                                 <button type="submit" class="btn btn-primary add-active-user">Proceed</button>
                              </div>
                          </div>
                      </div>
