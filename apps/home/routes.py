@@ -3,13 +3,20 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+import os
 from apps.home import blueprint
-from flask import Flask, render_template, request
+from flask import Flask, flash, redirect, render_template, request, url_for
 from jinja2 import TemplateNotFound
 from flask_wtf.csrf import CSRFProtect
 from wtforms import Form, StringField, validators
+from dotenv import load_dotenv
+import requests
 
+load_dotenv()
 app = Flask(__name__)
+
+API_URL = os.getenv('API_URL')
+
 csrf = CSRFProtect(app)
 
 class SearchCustomerForm(Form):
@@ -20,6 +27,7 @@ class SearchCustomerForm(Form):
 
 @blueprint.route('/')
 def index():
+
     return render_template('home/index.html', segment='index')
 
 @blueprint.route('/customer')
@@ -47,9 +55,25 @@ def searchCustomer():
     form = SearchCustomerForm(request.form)
     if request.method == 'POST' and form.validate():
         memberId = form.member_id.data
-        return render_template('home/customer_management/show.html', segment='searchCustomer', memberId=memberId)
-    return render_template('home/errors/page-403.html'), 403
-
+        try:
+            response = requests.post(
+                f'{API_URL}/search-customer', 
+                headers={'Content-Type': 'application/json'}, 
+                json={'customer_id': memberId}
+            )
+            if response.status_code == 200:
+                print(response.text)
+                api_data = response.json()
+                print(api_data['customer_data'])
+                return render_template('home/customer_management/show.html', segment='searchCustomer', memberId=memberId, customerData=api_data['customer_data'])
+            else:
+                flash('Something went wrong!', 'error')
+                return redirect(url_for('home_blueprint.customerManagement'))
+        except Exception as e:
+            flash(f'Something went wrong! {str(e)}', 'error')
+            return redirect(url_for('home_blueprint.customerManagement'))
+        
+        
 @blueprint.route('/<template>')
 def route_template(template):
 

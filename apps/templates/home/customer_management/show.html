@@ -55,29 +55,35 @@
                                             <div class="col-md-12 mb-2">
                                                 <div class="row mb-0 mb-md-2">
                                                     <label class="form-control-label col-md-3 col-6">Member ID</label>
-                                                    <div class="text-muted small col-md-3 col-6">{{memberId}}</div>
+                                                    <div class="text-muted small col-md-3 col-6">{{ memberId if memberId else 'N/A' }}</div>
                                                     <label class="form-control-label col-md-3 col-6">Segment</label>
-                                                    <div class="text-muted small col-md-3 col-6">Moderate Spenders</div>
+                                                    <div class="text-muted small col-md-3 col-6">{{ customerData['segment'] if customerData['segment'] else 'N/A' }}</div>
                                                 </div>
-
+                                                
                                                 <div class="row mb-0 mb-md-2">
                                                     <label class="form-control-label col-md-3 col-6">Average Amount</label>
-                                                    <div class="text-muted small col-md-3 col-6">10,000</div>
+                                                    <div class="text-muted small col-md-3 col-6">
+                                                        {{ '{:,}'.format(customerData['average_amount'] | int) if customerData['average_amount'] else 'N/A' }}
+                                                    </div>
                                                     <label class="form-control-label col-md-3 col-6">Preferred Category</label>
-                                                    <div class="text-muted small col-md-3 col-6">Restaurants</div>
+                                                    <div class="text-muted small col-md-3 col-6">{{ customerData['preferred_category'] if customerData['preferred_category'] else 'N/A' }}</div>
                                                 </div>
-
+                                                
                                                 <div class="row mb-0 mb-md-2">
                                                     <label class="form-control-label col-md-3 col-6">Preferred City</label>
-                                                    <div class="text-muted small col-md-3 col-6">Colombo</div>
+                                                    <div class="text-muted small col-md-3 col-6">{{ customerData['preferred_city'] if customerData['preferred_city'] else 'N/A' }}</div>
                                                     <label class="form-control-label col-md-3 col-6">Preferred Merchant</label>
-                                                    <div class="text-muted small col-md-3 col-6">Ministry of Crabs</div>
+                                                    <div class="text-muted small col-md-3 col-6">{{ customerData['preferred_merchant'] if customerData['preferred_merchant'] else 'N/A' }}</div>
                                                 </div>
 
                                                 <div class="row mb-0 mb-md-2">
                                                     <label class="form-control-label col-md-3 col-6">Marketing Availability Status</label>
                                                     <div class="text-muted small col-md-3 col-6">
+                                                        {% if customerData['is_marketing_suitable'] == 0 %}
+                                                            <span class="badge badge-pill badge-danger">No</span>
+                                                        {% else %}
                                                         <span class="badge badge-pill badge-success">Yes</span>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
@@ -88,11 +94,13 @@
                                         <h6 class="heading-small text-muted mb-2">Already Interacted MCC</h6>
                                         <div class="row">
                                             <div class="col-md-12 mb-2">
-                                                <span class="badge badge-pill badge-warning text-md">Supermarket</span>
-                                                <span class="badge badge-pill badge-warning text-md">Hotels</span>
-                                                <span class="badge badge-pill badge-warning text-md">Hospitals</span>
-                                                <span class="badge badge-pill badge-warning text-md">Clothing Stores</span>
-                                                <span class="badge badge-pill badge-warning text-md">Restaurants</span>
+                                                {%if customerData['interacted_mcc'] %}
+                                                    {% for interacted_mcc in customerData['interacted_mcc'] %}
+                                                        <span class="badge badge-pill badge-warning text-md">{{interacted_mcc}}</span>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <p class="text-sm text-muted">Not available</p>
+                                                {% endif %}    
                                             </div>
                                         </div>
 
@@ -101,9 +109,13 @@
                                         <h6 class="heading-small text-muted mb-2">Recommended MCC</h6>
                                         <div class="row">
                                             <div class="col-md-12 mb-2">
-                                                <span class="badge badge-pill badge-success text-md">Drug Stores and Pharmacies</span>
-                                                <span class="badge badge-pill badge-success text-md">Fast Food Restaurants</span>
-                                                <span class="badge badge-pill badge-success text-md">Gas Stations</span>
+                                                {%if customerData['recomended_mcc'] %}
+                                                    {% for recommended_mcc in customerData['recomended_mcc'] %}
+                                                        <span class="badge badge-pill badge-success text-md">{{recommended_mcc}}</span>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <p class="text-sm text-muted">Not available</p>
+                                                {% endif %}  
                                             </div>
                                         </div>
 

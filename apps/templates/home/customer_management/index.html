@@ -96,8 +96,25 @@
                 </div>
             </div>
         </div>
-    </div>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-danger alert-dismissible theme-alert float-right" role="alert">
+                    <span class="alert-inner--icon mr-1"><i class="fas fa-exclamation-circle"></i></span>
+                    <span class="alert-heading font-14 mr-1">Error!</span>
+                    <span class="alert-inner--text">
+                        {% for category, message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+    </div>
 </div>
    
 
