@@ -37,8 +37,20 @@ def customerManagement():
 
 @blueprint.route('/campaign')
 def campaignManagement():
-
-    return render_template('home/campaign_management/index.html', segment='campaignManagement')
+    try:
+        response = requests.get(
+            f'{API_URL}/get-campaign-details', 
+            headers={'Content-Type': 'application/json'})
+        print(response.text)
+        if response.status_code == 200:
+            
+            api_data = response.json()
+            return render_template('home/campaign_management/index.html', segment='campaignManagement', campaigns=api_data['campaign_data'])
+        else:
+            return render_template('home/campaign_management/index.html', segment='campaignManagement', campaigns=[])
+    except Exception as e:
+        return render_template('home/campaign_management/index.html', segment='campaignManagement', campaigns=[])
+    
 
 @blueprint.route('/active-users')
 def activeUsersRecommendation():
@@ -62,7 +74,6 @@ def searchCustomer():
                 json={'customer_id': memberId}
             )
             if response.status_code == 200:
-                print(response.text)
                 api_data = response.json()
                 print(api_data['customer_data'])
                 return render_template('home/customer_management/show.html', segment='searchCustomer', memberId=memberId, customerData=api_data['customer_data'])
