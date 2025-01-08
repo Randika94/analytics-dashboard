@@ -400,6 +400,7 @@ function pieChart() {
         type: 'GET',
         data: {},
         success: function(response) {
+			
             var TypeChart = (function () {
                 var $chart = $('#chart-type');
                 // Init chart

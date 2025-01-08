@@ -83,7 +83,7 @@ def campaignManagement():
         response = requests.get(
             f'{API_URL}/get-campaign-details', 
             headers={'Content-Type': 'application/json'})
-      
+  
         if response.status_code == 200:
             api_data = response.json()
             return render_template('home/campaign_management/index.html', segment='campaignManagement', campaigns=api_data['campaign_data'])
@@ -116,7 +116,7 @@ def getActiveUserRecommendation():
                 response = requests.post(
                     f'{API_URL}/filter', 
                     headers={'Content-Type': 'application/json'}, 
-                    json={'mcc': mcc,'segment':segment,'city':city,'is_create_campaign':1,'campaign_name':campaign_name,'campaign_description':campaign_description}
+                    json={'mcc': mcc,'segment':segment,'city':city,'is_create_campaign':'1','campaign_name':campaign_name,'campaign_description':campaign_description}
                 )
                 if response.status_code == 200:
                     return redirect(url_for('home_blueprint.campaignManagement'))
