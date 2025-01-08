@@ -413,10 +413,10 @@ function pieChart() {
                             },
                         },
                         data: {
-                            labels: ['Marketing Suitable Customers', 'Low CC Usage Customers',  'Total Transactions'],
+                            labels: ['Budget Spenders', 'High Spenders', 'Low Engagement', 'Moderate Spenders'],
                             datasets: [{
-                                label: 'Sales',
-                                backgroundColor: ["#fb6340", "#2dce89", "#1171ef"],
+                                label: 'Segments',
+                                backgroundColor: ["#fb6340", "#2dce89", "#1171ef", "#2b2728"],
                                 data: response.redemptionOptions
                             }]
                         }

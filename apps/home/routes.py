@@ -59,9 +59,10 @@ def getChartData():
             api_data = response.json()
             chart_data = {
                 "redemptionOptions": [
-                    api_data['data']['potantial_count'],
-                    api_data['data']['low_key_users'],
-                    api_data['data']['transaction_total']
+                    api_data['data']['chart_data']['Budget Spenders'],
+                    api_data['data']['chart_data']['High Spenders'],
+                    api_data['data']['chart_data']['Low Engagement'],
+                    api_data['data']['chart_data']['Moderate Spenders']
                 ]
             }
             return jsonify(chart_data)
