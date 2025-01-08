@@ -133,6 +133,16 @@
              <div class="modal-body">
                 <form role="form" id="formRecommendationActiveUser" method="post" action="/get-active-users">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-control-label">MCC</label>
+                                <input type="text" class="form-control" name="mcc" placeholder="5111">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">

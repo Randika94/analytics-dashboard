@@ -26,6 +26,7 @@ class SearchCustomerForm(Form):
     ])
 
 class GetActiveUserRecForm(Form):
+    mcc = StringField('MCC')   
     segment = StringField('Segment')   
     city = StringField('City') 
     is_create_campaign = StringField('Is Create Campaign') 
@@ -93,16 +94,7 @@ def campaignManagement():
 @blueprint.route('/active-users')
 def activeUsersRecommendation():
     try:
-        response = requests.post(
-            f'{API_URL}/filter', 
-            headers={'Content-Type': 'application/json'}, 
-            json={'mcc': 5411,'segment':'','city':'','is_create_campaign':0,'campaign_name':'','campaign_description':''}
-        )
-        if response.status_code == 200:
-            api_data = response.json()
-            return render_template('home/recommendation/active_users.html', segment='getActiveUserRecommendation', activeUsers=api_data['customer_data'])
-        else:
-            return render_template('home/recommendation/active_users.html', segment='getActiveUserRecommendation', activeUsers=[])
+        return render_template('home/recommendation/active_users.html', segment='getActiveUserRecommendation', activeUsers=[])
     except Exception as e:
         return render_template('home/recommendation/active_users.html', segment='getActiveUserRecommendation', activeUsers=[])
     
@@ -112,7 +104,7 @@ def getActiveUserRecommendation():
     form = GetActiveUserRecForm(request.form)
 
     if request.method == 'POST' and form.validate():
-        mcc = 5411
+        mcc = form.mcc.data
         segment = form.segment.data
         city = form.city.data
         createCampaignBoolean = form.is_create_campaign.data
@@ -126,7 +118,7 @@ def getActiveUserRecommendation():
                     json={'mcc': mcc,'segment':segment,'city':city,'is_create_campaign':1,'campaign_name':campaign_name,'campaign_description':campaign_description}
                 )
                 if response.status_code == 200:
-                    return redirect(url_for('home_blueprint.activeUsersRecommendation'))
+                    return redirect(url_for('home_blueprint.campaignManagement'))
                 else:
                     return render_template('home/recommendation/active_users.html', segment='getActiveUserRecommendation', activeUsers=[])
             except Exception as e:
