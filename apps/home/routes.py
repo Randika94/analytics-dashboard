@@ -33,6 +33,14 @@ class GetActiveUserRecForm(Form):
     campaign_name = StringField('Campaign Name')  
     campaign_description = StringField('Campaign Description')  
 
+class GetInactiveUserRecForm(Form):
+    segment = StringField('Segment')   
+    start_date = StringField('Start Date') 
+    end_date = StringField('End Date') 
+    is_create_campaign = StringField('Is Create Campaign') 
+    campaign_name = StringField('Campaign Name')  
+    campaign_description = StringField('Campaign Description')      
+
 @blueprint.route('/')
 def index():
     try:
@@ -141,7 +149,51 @@ def getActiveUserRecommendation():
 
 @blueprint.route('/inactive-users')
 def inactiveUsersRecommendation():
-    return render_template('home/recommendation/inactive_users.html', segment='inactiveUsersRecommendation')
+    try:
+        return render_template('home/recommendation/inactive_users.html', segment='inactiveUsersRecommendation', InactiveUsers=[])
+    except Exception as e:
+        return render_template('home/recommendation/inactive_users.html', segment='inactiveUsersRecommendation', InactiveUsers=[])
+
+@blueprint.route('/get-inactive-users', methods=['POST'])
+def getInactiveUserRecommendation():
+
+    form = GetInactiveUserRecForm(request.form)
+
+    if request.method == 'POST' and form.validate():
+        segment = form.segment.data
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        createCampaignBoolean = form.is_create_campaign.data
+        campaign_name = form.campaign_name.data
+        campaign_description = form.campaign_description.data
+        if createCampaignBoolean == 'on':
+            try:
+                response = requests.post(
+                    f'{API_URL}/get-inactive-customers', 
+                    headers={'Content-Type': 'application/json'}, 
+                    json={'segment':segment,'start_date':start_date,'end_date':end_date,'is_create_campaign':'1','campaign_name':campaign_name,'campaign_description':campaign_description}
+                )
+                if response.status_code == 200:
+                    return redirect(url_for('home_blueprint.campaignManagement'))
+                else:
+                    return render_template('home/recommendation/inactive_users.html', segment='getInactiveUserRecommendation', InactiveUsers=[])
+            except Exception as e:
+                return render_template('home/recommendation/inactive_users.html', segment='getInactiveUserRecommendation', InactiveUsers=[])
+        else:
+            try:
+                response = requests.post(
+                    f'{API_URL}/get-inactive-customers', 
+                    headers={'Content-Type': 'application/json'}, 
+                    json={'segment':segment,'start_date':start_date,'end_date':end_date,'is_create_campaign':'0','campaign_name':campaign_name,'campaign_description':campaign_description}
+                )
+               
+                if response.status_code == 200:
+                     api_data=response.json()
+                     return render_template('home/recommendation/inactive_users.html', segment='getInactiveUserRecommendation', InactiveUsers=api_data['customer_data'])
+                else:
+                    return render_template('home/recommendation/inactive_users.html', segment='getInactiveUserRecommendation', InactiveUsers=[])
+            except Exception as e:
+                return render_template('home/recommendation/inactive_users.html', segment='getInactiveUserRecommendation', InactiveUsers=[])
 
 @blueprint.route('/search-customer', methods=['GET', 'POST'])
 def searchCustomer():
