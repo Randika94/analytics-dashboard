@@ -132,7 +132,8 @@ def getActiveUserRecommendation():
                     json={'mcc': mcc,'segment':segment,'city':city,'is_create_campaign':'0','campaign_name':campaign_name,'campaign_description':campaign_description}
                 )
                 if response.status_code == 200:
-                    return redirect(url_for('home_blueprint.activeUsersRecommendation'))
+                     api_data=response.json()
+                     return render_template('home/recommendation/active_users.html', segment='getActiveUserRecommendation', activeUsers=api_data['customer_data'])
                 else:
                     return render_template('home/recommendation/active_users.html', segment='getActiveUserRecommendation', activeUsers=[])
             except Exception as e:
