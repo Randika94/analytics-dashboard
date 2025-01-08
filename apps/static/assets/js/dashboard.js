@@ -1,22 +1,4 @@
 $(document).ready(function () {
-    //weather
-    $.ajax({
-        url: 'https://api.openweathermap.org/data/2.5/weather',
-        type: 'GET',
-        data: {lat: '6.9271', lon: '79.8612', appid: 'b70aec80b5664714ac487a6d4309b4ad', units: 'metric'},
-        dataType: 'json',
-        success: function (msg) {
-            $('.w-temp').text(msg.main['temp']);
-            $('.w-feel-temp').text(msg.main['feels_like']);
-            $('.w-clouds').text(msg.weather[0]['description']);
-            let imrUrl = "http://openweathermap.org/img/wn/" + msg.weather[0]['icon'] + "@2x.png";
-            $('.icon-weather').attr('src', imrUrl);
-        },
-        error: function (request, status, error) {
-            //alert(request);
-        }
-    });
-
     // Sales Overview DatePicker Start
     var currentDate = new Date();
     var currentMonth = currentDate.getMonth();
@@ -400,7 +382,7 @@ function pieChart() {
         type: 'GET',
         data: {},
         success: function(response) {
-			
+
             var TypeChart = (function () {
                 var $chart = $('#chart-type');
                 // Init chart
