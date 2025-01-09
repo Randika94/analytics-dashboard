@@ -69,14 +69,13 @@
                                                                    class="table align-items-center dt-responsive nowrap table-flush user_tbl"
                                                                    width="100%">
                                                                 <thead class="thead-light">
-                                                                <tr>
-                                                                    <th>Member ID</th>
-                                                                    <th>Segment</th>
-                                                                    <th>Score</th>
-                                                                    <th>Preferred MCC</th>
-                                                                    <th>Average Spend</th>
-                                                                    <th>Last Transaction Date</th>
-                                                                </tr>
+                                                                    <tr>
+                                                                        <th>Member ID</th>
+                                                                        <th>Segment</th>
+                                                                        <th>Preferred MCC</th>
+                                                                        <th>Average Spend (LKR)</th>
+                                                                        <th>Last Transaction Date</th>
+                                                                    </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                 {%if InactiveUsers %}
@@ -84,7 +83,6 @@
                                                                         <tr>
                                                                             <td>{{ campaign['member_id'] }}</td>
                                                                             <td>{{ campaign['segment'] }}</td>
-                                                                            <td>{{ '{:,}'.format(campaign['score'] | int) }}</td>
                                                                             <td>{{ campaign['preferred_mcc'] }}</td>
                                                                             <td>{{ campaign['average_spend'] }}</td>
                                                                             <td>{{ campaign['last_transaction_date'] }}</td>

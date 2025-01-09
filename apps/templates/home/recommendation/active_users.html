@@ -72,12 +72,10 @@
                                                                 <tr>
                                                                     <th>Member ID</th>
                                                                     <th>Segment</th>
-                                                                    <th>Score</th>
-                                                                    <th>Type</th>
                                                                     <th>MCC Name</th>
                                                                     <th>City</th>
                                                                     <th>Marketing Status</th>
-                                                                    <th>Average Spend</th>
+                                                                    <th>Average Spend (LKR)</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -86,8 +84,6 @@
                                                                         <tr>
                                                                             <td>{{ campaign['member_id'] }}</td>
                                                                             <td>{{ campaign['segment'] }}</td>
-                                                                            <td>{{ '{:,}'.format(campaign['score'] | int) }}</td>
-                                                                            <td>{{ campaign['type'] }}</td>
                                                                             <td>{{ campaign['mcc_name'] }}</td>
                                                                             <td>{{ campaign['city'] }}</td>
                                                                             <td>
